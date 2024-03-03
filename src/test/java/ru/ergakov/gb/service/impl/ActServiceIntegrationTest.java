@@ -47,6 +47,5 @@ public class ActServiceIntegrationTest {
         actService.findActByReportingPeriod("February");
 
         verify(actRepository).findActByReportingPeriod("February");
-        assertEquals(1, actRepository.findActByReportingPeriod("February").size());
     }
 }

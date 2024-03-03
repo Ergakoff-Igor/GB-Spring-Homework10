@@ -66,8 +66,8 @@ public class ActServiceImpl implements ActService {
      */
     @Override
     public void deleteAct(Long id) {
-        Act noteById = getActById(id);
-        actRepository.delete(noteById);
+        Act actById = getActById(id);
+        actRepository.delete(actById);
     }
 
     @Override

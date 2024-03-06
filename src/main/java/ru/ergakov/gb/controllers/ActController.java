@@ -1,5 +1,8 @@
 package ru.ergakov.gb.controllers;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.Metrics;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 public class ActController {
     private final ActService actService;
+    private final Counter addActCounter = Metrics.counter("add_act_count");
+    private final Timer findAllActsTimer = Metrics.timer("find_acts_timer");
 
     @GetMapping("/acts")
     public String findAll(Model model) {
+        findAllActsTimer.baseTimeUnit();
         List<Act> acts = actService.getAllActs();
         model.addAttribute("acts", acts);
         return "act-list";
@@ -25,6 +31,7 @@ public class ActController {
 
     @GetMapping("/act-create")
     public String createActForm(Act ignoredAct) {
+        addActCounter.increment();
         return "act-create";
     }
 
